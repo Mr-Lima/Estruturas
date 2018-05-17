@@ -26,6 +26,10 @@ public class Fila<T> implements iFila<T> {
         nItens = 0;
     }
 
+    public Fila(){
+        this(10);
+    }
+
     /**
      * Insere um elemento ao fundo da fila
      *
@@ -36,8 +40,8 @@ public class Fila<T> implements iFila<T> {
     public boolean enfileirar(T elemento) {
         if(cheio())
             return false;
-        if(fundo == tamMax-1) //Se o fundo da fila é o fim do vetor, volta para a frente
-            fundo = -1;
+        if(fundo == tamMax-1)//Se o fundo da fila é o fim do vetor
+            redimencionar(tamMax*2);
         fundo++;
         filaVetor[fundo] = elemento;
         nItens++;
@@ -55,6 +59,7 @@ public class Fila<T> implements iFila<T> {
             throw new NullPointerException("Fila esta vazia");
         }
         T temp = filaVetor[frente];
+        filaVetor[frente] = null;
         frente++;
         if(frente == tamMax) //Wrap-Around
             frente = 0;
@@ -147,6 +152,15 @@ public class Fila<T> implements iFila<T> {
     @Override
     public void setTamanhoMaximo(int tamanhoMaximo) {
         tamMax = tamanhoMaximo;
+    }
+
+    private void redimencionar(int novoTamanho){
+        T[] vetorTemp = (T[]) new Object[novoTamanho];
+        for(int i = 0; i < filaVetor.length; i++){
+            vetorTemp[i] = filaVetor[i];
+            filaVetor = vetorTemp;
+        }
+        tamMax = novoTamanho;
     }
 
     @Override
