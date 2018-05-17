@@ -5,7 +5,7 @@ import java.security.InvalidParameterException;
 @SuppressWarnings("unused")
 public interface Lista<T> extends Iterable<T> {
 
-    void add(T element);
+    boolean add(T element);
 
     void add(T element, int index) throws InvalidParameterException;
 
@@ -32,6 +32,8 @@ public interface Lista<T> extends Iterable<T> {
     T removeFirstOf() throws InvalidParameterException;
 
     boolean contains(T element);
+
+    boolean isEmpty();
 
     void clear();
 

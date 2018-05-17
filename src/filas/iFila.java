@@ -12,6 +12,7 @@ package filas;
 public interface iFila<T> extends Iterable<T>{
     boolean enfileirar(T elemento);
     T desenfileirar();
+    T olhar();
     T primeiro();
     T ultimo();
     int tamanho();

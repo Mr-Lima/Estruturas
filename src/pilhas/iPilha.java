@@ -3,18 +3,19 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package listas;
+package pilhas;
 
 /**
  *
  * @author 11645
  */
 public interface iPilha<T> extends Iterable<T>{
-    public void empilhar(T elemento);
-    public T desempilhar();
-    public T topo();
-    public int tamanho();
-    public boolean contem(T elemento);
-    public void limpar();
-    public boolean vazia();
+    void empilhar(T elemento);
+    T desempilhar();
+    T topo();
+    int tamanho();
+    boolean contem(T elemento);
+    void limpar();
+    boolean vazia();
+    boolean cheia();
 }

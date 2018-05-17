@@ -22,11 +22,12 @@ public class VetorLista<T> implements Lista<T> {
     }
 
     @Override
-    public void add(T element) {
+    public boolean add(T element) {
         // TODO Auto-generated method stub
         expand();
         this.elements[this.qtdElmts] = element;
         this.qtdElmts++;
+        return true;
     }
 
     @Override
@@ -36,9 +37,7 @@ public class VetorLista<T> implements Lista<T> {
         if (!isValidIndex(index))
             throw new InvalidParameterException("Posicao invalida");
 
-        for (int i = this.qtdElmts - 1; i >= index; i--) {
-            this.elements[i + 1] = this.elements[i];
-        }
+        System.arraycopy(this.elements, index, this.elements, index + 1, this.qtdElmts - index);
 
         this.elements[index] = element;
         this.qtdElmts++;
@@ -48,9 +47,7 @@ public class VetorLista<T> implements Lista<T> {
     public void addBegin(T element) {
         // TODO Auto-generated method stub
         expand();
-        for (int i = this.qtdElmts - 1; i >= 0; i--) {
-            this.elements[i + 1] = this.elements[i];
-        }
+        System.arraycopy(this.elements, 0, this.elements, 1, this.qtdElmts - 1 + 1);
 
         this.elements[0] = element;
         this.qtdElmts++;
@@ -109,9 +106,7 @@ public class VetorLista<T> implements Lista<T> {
     public T remove(int index) throws InvalidParameterException {
         // TODO Auto-generated method stub
         T aux = this.elements[index];
-        for (int i = index; i < this.qtdElmts - 1; i++) {
-            this.elements[i] = this.elements[i + 1];
-        }
+        System.arraycopy(this.elements, index + 1, this.elements, index, this.qtdElmts - 1 - index);
         this.qtdElmts--;
         return aux;
     }
@@ -141,9 +136,7 @@ public class VetorLista<T> implements Lista<T> {
     public T removeFirstOf() throws InvalidParameterException {
         // TODO Auto-generated method stub
         T aux = this.elements[0];
-        for (int i = 0; i < this.qtdElmts - 1; i++) {
-            this.elements[i] = this.elements[i + 1];
-        }
+        System.arraycopy(this.elements, 1, this.elements, 0, this.qtdElmts - 1);
         this.qtdElmts--;
         return aux;
     }
@@ -160,6 +153,11 @@ public class VetorLista<T> implements Lista<T> {
     }
 
     @Override
+    public boolean isEmpty() {
+        return (this.qtdElmts)==0;
+    }
+
+    @Override
     public void clear() {
         // TODO Auto-generated method stub
         this.elements = null;
@@ -167,12 +165,23 @@ public class VetorLista<T> implements Lista<T> {
         this.qtdElmts = 0;
     }
 
+    /**
+     * Retorno o tamanho do vetor incluindo valores ocultos
+     * OBS.: NAO É O COMPRIMENTO BASEADO NOS ELEMENTOS
+     *
+     * @return Tamanho oculto
+     */
     @Override
     public int size() {
         // TODO Auto-generated method stub
         return this.qtdElmts;
     }
 
+    /**
+     * Tamanho do vetor baseado nos elementos
+     *
+     * @return Retorna a quantidade de elementos
+     */
     @Override
     public int lenght() {
         // TODO Auto-generated method stub
@@ -208,9 +217,7 @@ public class VetorLista<T> implements Lista<T> {
     private void expand() {
         if (this.qtdElmts == this.capacity) {
             T[] aux = (T[]) new Object[this.capacity * 2];
-            for (int i = 0; i < this.capacity; i++) {
-                aux[i] = this.elements[i];
-            }
+            System.arraycopy(this.elements, 0, aux, 0, this.capacity);
             this.capacity = this.capacity * 2;
             this.elements = aux;
         }

@@ -19,7 +19,6 @@ public class Fila<T> implements iFila<T> {
      * @param tamanho Tamanho da nova fila
      */
     public Fila(int tamanho){
-
         tamMax = tamanho;
         filaVetor = (T[]) new Object[tamanho];
         frente = 0;
@@ -61,6 +60,11 @@ public class Fila<T> implements iFila<T> {
             frente = 0;
         nItens--;
         return temp;
+    }
+
+    @Override
+    public T olhar() {
+        return primeiro();
     }
 
     /**

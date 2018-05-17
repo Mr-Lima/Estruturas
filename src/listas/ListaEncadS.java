@@ -15,7 +15,7 @@ public class ListaEncadS<T> implements Lista<T> {
     }
 
     @Override
-    public void add(T element) {
+    public boolean add(T element) {
         if (count == 0) {
             this.addBegin(element);
         } else {
@@ -24,6 +24,7 @@ public class ListaEncadS<T> implements Lista<T> {
             this.tail = novo;
             this.count++;
         }
+        return false;
     }
 
     @Override
@@ -152,6 +153,11 @@ public class ListaEncadS<T> implements Lista<T> {
             current = current.getNext();
         }
         return false;
+    }
+
+    @Override
+    public boolean isEmpty() {
+        throw new UnsupportedOperationException();
     }
 
     @Override
