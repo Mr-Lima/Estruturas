@@ -214,11 +214,11 @@ public class LkdList<T> implements Lista<T> {
         StringBuilder builder = new StringBuilder("[");
         No<T> current = this.head;
         for (int i = 0; i < this.count - 1; i++) {
-            builder.append(current.getElement());
+            builder.append(current.getElement().toString());
             builder.append(", ");
             current = current.getNext();
         }
-        builder.append(current.getElement());
+        builder.append(current.getElement().toString());
         builder.append("]");
 
         return builder.toString();

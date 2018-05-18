@@ -41,6 +41,9 @@ public class Fila<T> implements iFila<T> {
         if(cheio())
             return false;
         if(fundo == tamMax-1)//Se o fundo da fila é o fim do vetor
+        {
+            fundo=-1;
+        }
             redimencionar(tamMax*2);
         fundo++;
         filaVetor[fundo] = elemento;

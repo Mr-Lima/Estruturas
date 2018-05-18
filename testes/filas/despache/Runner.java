@@ -1,5 +1,7 @@
 package filas.despache;
 
+import listas.VetorLista;
+
 import java.util.Scanner;
 
 public class Runner {
@@ -44,11 +46,7 @@ public class Runner {
     }
 
     private void pedidos() {
-        for(Despache despache : Despache.despaches){
-            if(despache.equals(null))
-                continue;
-            System.out.println("Pedido: "+despache.getCodigo()+"\tCliente: "+despache.getCliente().getCpf());
-        }
+        System.out.println(Despache.despaches.toString());
     }
 
     private void dpcPed() {
@@ -59,23 +57,29 @@ public class Runner {
     private void efetPed() {
         int cpf, id;
         Cliente auxCliente = null;
-        Produto auxProduto = null;
+        VetorLista<Produto> auxProdutos = new VetorLista<>();
+        String escolha = null;
 
         System.out.println("CPF cliente:");
         cpf = input.nextInt();
-        System.out.println("Id produto:");
-        id = input.nextInt();
+        do {
+            System.out.println("Id produto:");
+            id = input.nextInt();
+            for (Produto produto : Produto.produtos){
+                if(id==produto.getId())
+                    auxProdutos.add(produto);
+            }
+            System.out.println("Adcionar outro produto? (Y/N)");
+            escolha = input.next();
+        }while (escolha.equalsIgnoreCase("y"));
+
         for (Cliente cliente :
                 Cliente.clientes) {
             if(cpf==cliente.getCpf())
                 auxCliente = cliente;
         }
-        for (Produto produto : Produto.produtos){
-            if(id==produto.getId())
-                auxProduto = produto;
-        }
-        Despache.despaches.enfileirar(new Despache(auxCliente, auxProduto));
-        System.out.println("Pedido efecuado");
+        Despache.despaches.enfileirar(new Despache(auxCliente, auxProdutos));
+        System.out.println("Pedido efetuado");
     }
 
     private void cadClt() {
