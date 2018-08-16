@@ -1,5 +1,7 @@
 package conjuntos;
 
+import listas.VetorLista;
+
 import java.security.InvalidParameterException;
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -47,8 +49,7 @@ public class THash<K, V> implements ITabelaHash<K, V> {
             for (int i = 0; i < numListas; i++) {
                 tabela.add(null);
             }
-            for (Entrada<K, V> headNode :
-                    aux) {
+            for (Entrada<K, V> headNode : aux) {
                 while (headNode != null) {
                     inserir(headNode.chave, headNode.valor);
                     headNode = headNode.next;
@@ -111,6 +112,17 @@ public class THash<K, V> implements ITabelaHash<K, V> {
 
     }
 
+    public VetorLista<V> getToVetor() {
+        VetorLista<V> vetor = new VetorLista<>();
+        for (Entrada<K, V> x : tabela) {
+            while (x != null) {
+                vetor.add(x.valor);
+                x = x.next;
+            }
+        }
+        return vetor;
+    }
+
     @Override
     public boolean contem(V valor) {
         for (Entrada<K, V> x : tabela) {
@@ -126,6 +138,24 @@ public class THash<K, V> implements ITabelaHash<K, V> {
     private int getListaIndex(K chave) {
         int hashCode = chave.hashCode();
         return hashCode % numListas;
+    }
+
+    @Override
+    public String toString() {
+        if (tamanho() == 0)
+            return "[]";
+
+        StringBuilder builder = new StringBuilder();
+        builder.append("[");
+
+        for (Entrada<K, V> x : tabela) {
+            while (x != null) {
+                builder.append(", " + x.valor.toString());
+                x = x.next;
+            }
+        }
+        builder.append("]");
+        return builder.toString();
     }
 
     @Override
