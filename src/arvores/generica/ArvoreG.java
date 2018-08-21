@@ -17,6 +17,10 @@ public class ArvoreG<T> {
         tamanho++;
     }
 
+    public void inserir(T valor, T valorDoPai) {
+        inserir(valor, buscarValor(valorDoPai));
+    }
+
     public No<T> obterRaiz() {
         return this.raiz;
     }
@@ -28,6 +32,27 @@ public class ArvoreG<T> {
             filhos.add(filho);
         }
         return filhos;
+    }
+
+    public No buscarValor(T valor) {
+        if (this.raiz.valor.equals(valor))
+            return this.raiz;
+        FilaLkd<No> nos = new FilaLkd<>();
+        nos.enfileirar(this.raiz);
+
+        while (!nos.vazio()) {
+            No pai = nos.olhar();
+            LkdList<No> adjacentes = nos.desenfileirar().getNos();
+
+            for (No x : adjacentes) {
+                if (x.valor.equals(valor)) {
+                    return x;
+                } else {
+                    nos.enfileirar(x);
+                }
+            }
+        }
+        return null;
     }
 
     public No removerNo(No no) {
@@ -75,7 +100,7 @@ public class ArvoreG<T> {
         return null;
     }
 
-    private class No<T> {
+    public class No<T> {
         T valor;
         LkdList<No> nos;
 
