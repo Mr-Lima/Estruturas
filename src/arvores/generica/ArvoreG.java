@@ -41,7 +41,7 @@ public class ArvoreG<T> {
         nos.enfileirar(this.raiz);
 
         while (!nos.vazio()) {
-            No pai = nos.olhar();
+            //No pai = nos.olhar();
             LkdList<No> adjacentes = nos.desenfileirar().getNos();
 
             for (No x : adjacentes) {
