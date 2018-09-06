@@ -81,11 +81,10 @@ public class ABB<K extends Comparable<K>, V> implements Iterable<V> {
         }
     }
 
-    public V remover(K chave) {
-        No aux = buscarNo(chave);
+    public V remover(No aux) {
         No travesso = null;
 
-        if (!aux.valor.equals(chave))
+        if (!aux.valor.equals(aux.chave))
             throw new InvalidParameterException("Chave nao existe");
 
         //sem sem arvore
@@ -104,9 +103,14 @@ public class ABB<K extends Comparable<K>, V> implements Iterable<V> {
         }
         //duas sub arvores
         else if (aux.esquerdo != null && aux.direito != null) {
+            V valor = aux.valor;
             No sucessor = buscarSucessor(aux);
-            sucessor.esquerdo = aux.esquerdo;
-            sucessor.esquerdo.pai = sucessor;
+            aux.chave = sucessor.chave;
+            aux.valor = sucessor.valor;
+            //sucessor.esquerdo = aux.esquerdo;
+            //sucessor.esquerdo.pai = sucessor;
+            remover(sucessor);
+
 
             //se o sucessor tiver o filho direito, o avo do pai é seu novo pai
             if (sucessor.direito != null) {
@@ -125,7 +129,10 @@ public class ABB<K extends Comparable<K>, V> implements Iterable<V> {
 
             //Se nao estiver deletando a raiz
             else {
+                //sucessor.direito = aux.direito;
+                //sucessor.direito.pai = sucessor;
                 sucessor.pai = aux.pai;
+                //aux = sucessor;
 
                 //associando o novo no para ser filho direito ou esquerdo
                 if (aux.pai.chave.compareTo(aux.chave) < 0) {
@@ -136,7 +143,7 @@ public class ABB<K extends Comparable<K>, V> implements Iterable<V> {
                     aux.pai.esquerdo = sucessor;
                 }
                 this.tamanho++;
-                return travesso.valor;
+                return valor;
             }
         }
         //Um filho
@@ -183,6 +190,11 @@ public class ABB<K extends Comparable<K>, V> implements Iterable<V> {
 
             }
         }
+    }
+
+    public V remover(K chave) {
+        No aux = buscarNo(chave);
+        return remover(aux);
     }
 
     private No buscarSucessor(No no) {
