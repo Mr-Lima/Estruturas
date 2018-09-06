@@ -8,7 +8,7 @@ public class ArvoreG<T> {
     private int tamanho = 0;
 
     public ArvoreG(T valor) {
-        this.raiz = new No<>(valor);
+        this.raiz = new No(valor);
         tamanho++;
     }
 
@@ -21,7 +21,7 @@ public class ArvoreG<T> {
         inserir(valor, buscarValor(valorDoPai));
     }
 
-    public No<T> obterRaiz() {
+    public No obterRaiz() {
         return this.raiz;
     }
 
@@ -81,7 +81,7 @@ public class ArvoreG<T> {
         return aux;
     }
 
-    private No<T> busca_em_largura(No no) {
+    private No busca_em_largura(No no) {
         if (this.raiz.equals(no))
             return this.raiz;
         FilaLkd<No> noFilaLkd = new FilaLkd<>();
@@ -100,7 +100,7 @@ public class ArvoreG<T> {
         return null;
     }
 
-    public class No<T> {
+    public class No {
         T valor;
         LkdList<No> nos;
 

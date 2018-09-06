@@ -105,7 +105,7 @@ public class LkdList<T> implements Lista<T> {
     public T remove(int index) throws InvalidParameterException {
         if (!isValid(index)) throw new InvalidParameterException("Index invalidado");
         if (index == 0) {
-            this.removeFirstOf();
+            return this.removeFirstOf();
         } else if (index == this.count - 1) {
             this.removeLastOf();
         } else {
