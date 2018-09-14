@@ -50,19 +50,18 @@ public class ABB<K extends Comparable<K>, V> implements Iterable<V> {
                 this.tamanho++;
                 return this.raiz.valor;
             } else {
-                switch (novo.chave.compareTo(atual.chave)) {
-                    case 1:
-                        if (atual.direito != null) {
-                            atual = atual.direito;
-                            //inserir(chave, valor);
-                            continue;
-                        } else {
-                            novo.pai = atual;
-                            atual.direito = novo;
-                            this.tamanho++;
-                            return atual.direito.valor;
-                        }
-                    case -1:
+                if ((novo.chave.compareTo(atual.chave)) >= 1) {
+                    if (atual.direito != null) {
+                        atual = atual.direito;
+                        //inserir(chave, valor);
+                        continue;
+                    } else {
+                        novo.pai = atual;
+                        atual.direito = novo;
+                        this.tamanho++;
+                        return atual.direito.valor;
+                    }
+                } else if ((novo.chave.compareTo(atual.chave)) <= -1) {
                         if (atual.esquerdo != null) {
                             atual = atual.esquerdo;
                             //inserir(chave, valor);
@@ -73,7 +72,7 @@ public class ABB<K extends Comparable<K>, V> implements Iterable<V> {
                             this.tamanho++;
                             return atual.esquerdo.valor;
                         }
-                    case 0:
+                } else if ((novo.chave.compareTo(atual.chave)) == 0) {
                         atual.valor = novo.valor;
                         return atual.valor;
                 }
@@ -307,7 +306,7 @@ public class ABB<K extends Comparable<K>, V> implements Iterable<V> {
 
     @Override
     public Iterator<V> iterator() {
-        return null;
+        return new IteratorABB(this.raiz);
     }
 
     private class No {
@@ -334,6 +333,37 @@ public class ABB<K extends Comparable<K>, V> implements Iterable<V> {
                 return "null" + " " + chave.toString() + " " + direito.chave.toString();
             } else
                 return esquerdo.chave.toString() + " " + chave.toString() + " " + direito.chave.toString();
+        }
+    }
+
+    private class IteratorABB implements Iterator<V> {
+        Stack<No> noQueue;
+
+        public IteratorABB(No raiz) {
+            noQueue = new Stack<>();
+            while (raiz != null) {
+                noQueue.push(raiz);
+                raiz = raiz.esquerdo;
+            }
+        }
+
+        @Override
+        public boolean hasNext() {
+            return !noQueue.isEmpty();
+        }
+
+        @Override
+        public V next() {
+            No no = noQueue.pop();
+            V result = no.valor;
+            if (no.direito != null) {
+                no = no.direito;
+                while (no != null) {
+                    noQueue.push(no);
+                    no = no.esquerdo;
+                }
+            }
+            return result;
         }
     }
 }
