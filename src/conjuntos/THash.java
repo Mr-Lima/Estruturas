@@ -135,8 +135,21 @@ public class THash<K, V> implements ITabelaHash<K, V> {
         return false;
     }
 
+    public boolean contemChave(K chave) {
+        for (Entrada<K, V> x : tabela) {
+            while (x != null) {
+                if (x.chave.equals(chave))
+                    return true;
+                x = x.next;
+            }
+        }
+        return false;
+    }
+
     private int getListaIndex(K chave) {
         int hashCode = chave.hashCode();
+        if (hashCode < 0)
+            hashCode = hashCode * (-1);
         return hashCode % numListas;
     }
 
@@ -160,7 +173,7 @@ public class THash<K, V> implements ITabelaHash<K, V> {
 
     @Override
     public Iterator<V> iterator() {
-        return null;
+        return new IteratorHash();
     }
 
     private class Entrada<K, V> {
@@ -171,6 +184,20 @@ public class THash<K, V> implements ITabelaHash<K, V> {
         public Entrada(K chave, V valor) {
             this.chave = chave;
             this.valor = valor;
+        }
+    }
+
+    private class IteratorHash implements Iterator<V> {
+        ArrayList<Entrada<K, V>> lista = tabela;
+        int indice = 0;
+        @Override
+        public boolean hasNext() {
+            return indice < tamanho && lista.get(indice) != null;
+        }
+
+        @Override
+        public V next() {
+            return lista.get(indice++).valor;
         }
     }
 }
